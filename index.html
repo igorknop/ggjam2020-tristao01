@@ -25,8 +25,34 @@
         let timeleft = 20;
         let x = 0;
         let y = 0;
-        let agestate =0;
-        let dt = t = t0 =0;
+        let agestate = 0;
+        let dt = t = t0 = 0;
+        let ship = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ];
 
         const ages = [
             "baby",
@@ -37,7 +63,7 @@
             "older_man",
             "skull",
         ]
-        const AGING = 20/6;
+        const AGING = 20 / 6;
         const STEP = 20;
         let age = AGING;
     </script>
@@ -53,17 +79,33 @@
         const eTimeleft = document.querySelector("#timeleft");
         const pc = document.querySelector("#pc");
         requestAnimationFrame(step);
+        function drawMap() {
+            for (let line = 0; line < ship.length; line++) {
+                for (let coll = 0; coll < ship[line].length; coll++) {
+                    if (ship[line][coll] != 0) {
 
-        function reset(){
+                        const element = ship[line][coll];
+                        const eElement = document.createElement("i");
+                        eElement.className = "em em-white_square_button";
+                        map.appendChild(eElement);
+                        eElement.style.position = "absolute";
+                        eElement.style.top = line * STEP + "px";
+                        eElement.style.left = coll * STEP + "px";
+                    }
+                }
+            }
+        }
+        drawMap();
+        function reset() {
             pc.className = "em em-baby";
-            age=AGING;
+            age = AGING;
             agestate = 0;
             timeleft = 20;
-            x=y=0;
+            x = y = 0;
             pc.style.left = x * STEP + "px";
             pc.style.top = y * STEP + "px";
         }
-        function getOlder(){
+        function getOlder() {
             if (agestate < ages.length - 1) {
                 pc.classList.toggle(`em-${ages[agestate]}`);
                 pc.classList.toggle(`em-${ages[++agestate]}`);
@@ -77,11 +119,11 @@
             eTimeleft.innerHTML = str;
         }
         function step(t) {
-            dt = (t - t0)/1000;
-            timeleft -= 1*dt;
-            age -= 1*dt;
+            dt = (t - t0) / 1000;
+            timeleft -= 1 * dt;
+            age -= 1 * dt;
             updateTime();
-            if(age <=0){
+            if (age <= 0) {
                 getOlder();
                 age = AGING;
             }
@@ -89,29 +131,29 @@
             t0 = t;
         }
         addEventListener("keydown", (e) => {
-            if (agestate >= ages.length - 1 || timeleft<=0) return;
+            if (agestate >= ages.length - 1 || timeleft <= 0) return;
             switch (e.keyCode) {
                 case 37:
                     e.preventDefault();
-                    x=((x>0)?x-1:x);
+                    x = ((x > 0) ? x - 1 : x);
                     break;
                 case 39:
                     e.preventDefault();
-                    x=((x<24)?x+1:x);
+                    x = ((x < 24) ? x + 1 : x);
                     break;
                 case 38:
                     e.preventDefault();
-                    y=((y>0)?y-1:y);
+                    y = ((y > 0) ? y - 1 : y);
                     break;
                 case 40:
-                    y=((y<24)?y+1:y);
+                    y = ((y < 24) ? y + 1 : y);
                     break;
 
                 default:
                     break;
             }
-                    pc.style.left = x * STEP + "px";
-                    pc.style.top = y * STEP + "px";
+            pc.style.left = x * STEP + "px";
+            pc.style.top = y * STEP + "px";
         });
     </script>
 </body>
