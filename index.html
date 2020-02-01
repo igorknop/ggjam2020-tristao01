@@ -37,18 +37,27 @@
 </head>
 
 <body>
-    <button onclick="{age = 0;}">Restart</button>
+    <i class="em em-baby_bottle" onclick="reset()"></i>
     <div id="map">
         <i class="em em-baby" id="pc"></i>
     </div>
     <script>
 
         const pc = document.querySelector("#pc");
-        setInterval(() => {
+        function reset(){
+            age=x=y=0;
+            getOlder();
+            pc.style.left = x * 10 + "px";
+            pc.style.top = y * 10 + "px";
+        }
+        function getOlder(){
             if (age < ages.length - 1) {
                 pc.classList.toggle(`em-${ages[age]}`);
                 pc.classList.toggle(`em-${ages[++age]}`);
             }
+        }
+        setInterval(() => {
+            getOlder();
         }, 3333);
         addEventListener("keydown", (e) => {
             if (age >= ages.length - 1) return;
