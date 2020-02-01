@@ -21,9 +21,12 @@
         }
     </style>
     <script>
+        let timeleft = 20;
         let x = 0;
         let y = 0;
-        let age = 0;
+        let agestate =0;
+        let dt = t = t0 =0;
+
         const ages = [
             "baby",
             "boy",
@@ -33,33 +36,55 @@
             "older_man",
             "skull",
         ]
+        const AGING = 20/6;
+        let age = AGING;
     </script>
 </head>
 
 <body>
     <i class="em em-baby_bottle" onclick="reset()"></i>
+    <span id="timeleft"></span>
     <div id="map">
         <i class="em em-baby" id="pc"></i>
     </div>
     <script>
-
+        const eTimeleft = document.querySelector("#timeleft");
         const pc = document.querySelector("#pc");
+        requestAnimationFrame(step);
+
         function reset(){
-            pc.classList.toggle(`em-${ages[age]}`);
-            age=x=y=0;
-            getOlder();
+            pc.classList.toggle(`em-${ages[agestate]}`);
+            age=AGING;
+            agestate = 0;
+            x=y=0;
             pc.style.left = x * 10 + "px";
             pc.style.top = y * 10 + "px";
         }
         function getOlder(){
-            if (age < ages.length - 1) {
-                pc.classList.toggle(`em-${ages[age]}`);
-                pc.classList.toggle(`em-${ages[++age]}`);
+            if (agestate < ages.length - 1) {
+                pc.classList.toggle(`em-${ages[agestate]}`);
+                pc.classList.toggle(`em-${ages[++agestate]}`);
             }
         }
-        setInterval(() => {
-            getOlder();
-        }, 3333);
+        function updateTime() {
+            let str = "";
+            for (let i = 0; i < Math.ceil(timeleft); i++) {
+                str += `<i class="em em-heart"></i>`
+            }
+            eTimeleft.innerHTML = str;
+        }
+        function step(t) {
+            dt = (t - t0)/1000;
+            timeleft -= 1*dt;
+            age -= 1*dt;
+            updateTime();
+            if(age <=0){
+                getOlder();
+                age = AGING;
+            }
+            requestAnimationFrame(step);
+            t0 = t;
+        }
         addEventListener("keydown", (e) => {
             if (age >= ages.length - 1) return;
             switch (e.keyCode) {
