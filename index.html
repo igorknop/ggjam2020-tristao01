@@ -28,7 +28,7 @@
         let agestate = 0;
         let dt = t = t0 = 0;
         let ship = [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -63,6 +63,15 @@
             "older_man",
             "skull",
         ]
+        const images = [
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f476.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f466.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f468.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f9d4.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f468-200d-1f9b3.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f474.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f480.png"; return i })(),
+        ];
         const AGING = 20 / 6;
         const STEP = 20;
         let age = AGING;
@@ -71,26 +80,31 @@
 
 <body>
     <i class="em em-baby_bottle" onclick="reset()"></i>
-    <span id="timeleft"></span>
-    <div id="map">
-        <i class="em em-baby" id="pc"></i>
-    </div>
+    <div id="timeleft"></div>
+
+    <canvas></canvas>
     <script>
         const eTimeleft = document.querySelector("#timeleft");
-        const pc = document.querySelector("#pc");
+        const canvas = document.querySelector("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 24 * STEP;
+        canvas.height = 24 * STEP;
         requestAnimationFrame(step);
         function drawMap() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let line = 0; line < ship.length; line++) {
                 for (let coll = 0; coll < ship[line].length; coll++) {
-                    if (ship[line][coll] != 0) {
+                    switch (ship[line][coll]) {
+                        case 1:
+                            ctx.fillRect(coll * STEP, line * STEP, STEP, STEP);
 
-                        const element = ship[line][coll];
-                        const eElement = document.createElement("i");
-                        eElement.className = "em em-white_square_button";
-                        map.appendChild(eElement);
-                        eElement.style.position = "absolute";
-                        eElement.style.top = line * STEP + "px";
-                        eElement.style.left = coll * STEP + "px";
+                            break;
+                        case 2:
+                            ctx.drawImage(images[agestate], coll * STEP, line * STEP, STEP, STEP);
+
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -102,14 +116,6 @@
             agestate = 0;
             timeleft = 20;
             x = y = 0;
-            pc.style.left = x * STEP + "px";
-            pc.style.top = y * STEP + "px";
-        }
-        function getOlder() {
-            if (agestate < ages.length - 1) {
-                pc.classList.toggle(`em-${ages[agestate]}`);
-                pc.classList.toggle(`em-${ages[++agestate]}`);
-            }
         }
         function updateTime() {
             let str = "";
@@ -124,14 +130,16 @@
             age -= 1 * dt;
             updateTime();
             if (age <= 0) {
-                getOlder();
                 age = AGING;
             }
+            drawMap();
             requestAnimationFrame(step);
             t0 = t;
         }
         addEventListener("keydown", (e) => {
             if (agestate >= ages.length - 1 || timeleft <= 0) return;
+            const xo = x;
+            const yo = y;
             switch (e.keyCode) {
                 case 37:
                     e.preventDefault();
@@ -152,8 +160,20 @@
                 default:
                     break;
             }
-            pc.style.left = x * STEP + "px";
-            pc.style.top = y * STEP + "px";
+            switch (ship[y][x]) {
+                case 0:
+                    ship[yo][xo] = 0;
+                    ship[y][x] = 2;
+                    break;
+                case 1:
+                    ship[yo][xo] = 2;
+                    x = xo;
+                    y = yo;
+                    break;
+
+                default:
+                    break;
+            }
         });
     </script>
 </body>
