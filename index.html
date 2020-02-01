@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surv20</title>
+    <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+    <script>
+        let age = 0;
+        const ages = [
+            "baby",
+            "boy",
+            "man",
+            "bearded_person",
+            "male_white_haired",
+            "older_man",
+            "skull",
+        ]
+    </script>
+</head>
+
+<body>
+    <i class="em em-baby" id="pc"></i>
+    <script>
+        const pc = document.querySelector("#pc");
+        setInterval(()=>{
+            if(age<ages.length-1){
+                pc.classList.toggle(`em-${ages[age]}`);
+                pc.classList.toggle(`em-${ages[++age]}`);
+                
+            }
+        },3333);
+    </script>
+</body>
+
+</html>
