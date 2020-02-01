@@ -9,12 +9,13 @@
     <style>
         #map {
             position: relative;
-            width: calc(20 * 10px);
-            height: calc(20 * 10px);
+            width: calc(26 * 20px);
+            height: calc(26 * 20px);
             background-color: lightgreen;
         }
 
         #pc {
+            font-size: 20px;
             position: absolute;
             top: 0;
             left: 0;
@@ -37,6 +38,7 @@
             "skull",
         ]
         const AGING = 20/6;
+        const STEP = 20;
         let age = AGING;
     </script>
 </head>
@@ -86,23 +88,23 @@
             t0 = t;
         }
         addEventListener("keydown", (e) => {
-            if (age >= ages.length - 1) return;
+            if (agestate >= ages.length - 1 || timeleft<=0) return;
             switch (e.keyCode) {
                 case 37:
                     e.preventDefault();
-                    pc.style.left = --x * 10 + "px";
+                    pc.style.left = --x * STEP + "px";
                     break;
                 case 39:
                     e.preventDefault();
-                    pc.style.left = ++x * 10 + "px";
+                    pc.style.left = ++x * STEP + "px";
                     break;
                 case 38:
                     e.preventDefault();
-                    pc.style.top = --y * 10 + "px";
+                    pc.style.top = --y * STEP + "px";
                     break;
                 case 40:
                     e.preventDefault();
-                    pc.style.top = ++y * 10 + "px";
+                    pc.style.top = ++y * STEP + "px";
                     break;
 
                 default:
