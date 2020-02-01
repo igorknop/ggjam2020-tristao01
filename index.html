@@ -92,24 +92,25 @@
             switch (e.keyCode) {
                 case 37:
                     e.preventDefault();
-                    pc.style.left = --x * STEP + "px";
+                    x=((x>0)?x-1:x);
                     break;
                 case 39:
                     e.preventDefault();
-                    pc.style.left = ++x * STEP + "px";
+                    x=((x<24)?x+1:x);
                     break;
                 case 38:
                     e.preventDefault();
-                    pc.style.top = --y * STEP + "px";
+                    y=((y>0)?y-1:y);
                     break;
                 case 40:
-                    e.preventDefault();
-                    pc.style.top = ++y * STEP + "px";
+                    y=((y<24)?y+1:y);
                     break;
 
                 default:
                     break;
             }
+                    pc.style.left = x * STEP + "px";
+                    pc.style.top = y * STEP + "px";
         });
     </script>
 </body>
