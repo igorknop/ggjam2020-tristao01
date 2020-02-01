@@ -55,12 +55,13 @@
         requestAnimationFrame(step);
 
         function reset(){
-            pc.classList.toggle(`em-${ages[agestate]}`);
+            pc.className = "em em-baby";
             age=AGING;
             agestate = 0;
+            timeleft = 20;
             x=y=0;
-            pc.style.left = x * 10 + "px";
-            pc.style.top = y * 10 + "px";
+            pc.style.left = x * STEP + "px";
+            pc.style.top = y * STEP + "px";
         }
         function getOlder(){
             if (agestate < ages.length - 1) {
