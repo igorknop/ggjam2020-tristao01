@@ -45,6 +45,7 @@
 
         const pc = document.querySelector("#pc");
         function reset(){
+            pc.classList.toggle(`em-${ages[age]}`);
             age=x=y=0;
             getOlder();
             pc.style.left = x * 10 + "px";
