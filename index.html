@@ -6,7 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surv20</title>
     <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
+    <style>
+        #map {
+            position: relative;
+            width: calc(20 * 10px);
+            height: calc(20 * 10px);
+            background-color: lightgreen;
+        }
+
+        #pc {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
     <script>
+        let x = 0;
+        let y = 0;
         let age = 0;
         const ages = [
             "baby",
@@ -21,16 +37,43 @@
 </head>
 
 <body>
-    <i class="em em-baby" id="pc"></i>
+    <button onclick="{age = 0;}">Restart</button>
+    <div id="map">
+        <i class="em em-baby" id="pc"></i>
+    </div>
     <script>
+
         const pc = document.querySelector("#pc");
-        setInterval(()=>{
-            if(age<ages.length-1){
+        setInterval(() => {
+            if (age < ages.length - 1) {
                 pc.classList.toggle(`em-${ages[age]}`);
                 pc.classList.toggle(`em-${ages[++age]}`);
-                
             }
-        },3333);
+        }, 3333);
+        addEventListener("keydown", (e) => {
+            if (age >= ages.length - 1) return;
+            switch (e.keyCode) {
+                case 37:
+                    e.preventDefault();
+                    pc.style.left = --x * 10 + "px";
+                    break;
+                case 39:
+                    e.preventDefault();
+                    pc.style.left = ++x * 10 + "px";
+                    break;
+                case 38:
+                    e.preventDefault();
+                    pc.style.top = --y * 10 + "px";
+                    break;
+                case 40:
+                    e.preventDefault();
+                    pc.style.top = ++y * 10 + "px";
+                    break;
+
+                default:
+                    break;
+            }
+        });
     </script>
 </body>
 
