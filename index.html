@@ -40,7 +40,7 @@
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -71,6 +71,9 @@
             (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f468-200d-1f9b3.png"; return i })(),
             (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f474.png"; return i })(),
             (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f480.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f4a5.png"; return i })(),
+            (() => { let i = new Image(); i.src = "https://twemoji.maxcdn.com/2/72x72/1f525.png"; return i })(),
+
         ];
         const AGING = 20 / 6;
         const STEP = 20;
@@ -89,6 +92,7 @@
         const ctx = canvas.getContext("2d");
         canvas.width = 24 * STEP;
         canvas.height = 24 * STEP;
+        let fire = 3;
         requestAnimationFrame(step);
         function drawMap() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -103,13 +107,28 @@
                             ctx.drawImage(images[agestate], coll * STEP, line * STEP, STEP, STEP);
 
                             break;
+                        case 3:
+                            ctx.drawImage(images[7], coll * STEP, line * STEP, STEP, STEP);
+                            if (fire <= 0) {
+                                ship[line][coll + 1] = 4;
+                                ship[line][coll - 1] = 4;
+                                ship[line + 1][coll] = 4;
+                                ship[line - 1][coll] = 4;
+                                ship[line][coll] = 0;
+                            }
+                            break;
+                        case 4:
+                            ctx.drawImage(images[8], coll * STEP, line * STEP, STEP, STEP);
+
+                            break;
                         default:
                             break;
                     }
                 }
             }
+            if(fire<=0) fire = 3;
         }
-        drawMap();
+    
         function reset() {
             pc.className = "em em-baby";
             age = AGING;
@@ -124,6 +143,11 @@
             }
             eTimeleft.innerHTML = str;
         }
+        function getOlder() {
+            if(agestate<ages.length-1){
+                agestate++;
+            }
+        }
         function step(t) {
             dt = (t - t0) / 1000;
             timeleft -= 1 * dt;
@@ -131,6 +155,7 @@
             updateTime();
             if (age <= 0) {
                 age = AGING;
+                getOlder();
             }
             drawMap();
             requestAnimationFrame(step);
